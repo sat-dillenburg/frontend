@@ -9,17 +9,13 @@ import { Helmet } from 'react-helmet';
 
 import '@assets/fonts/_fonts-roboto.css';
 
-function extractContent(s: string): string {
-  const span = document.createElement('span');
-  span.innerHTML = s;
-  return span.textContent || span.innerText;
+function extractContent(htmlString: string): string {
+  return htmlString.replace(/<[^>]+>/g, '').substring(0, 160);
 }
 
 export default function Page(props: Props): JSX.Element {
   const { pathContext } = props;
   const { title, content } = pathContext;
-
-  console.log();
 
   return (
     <Layout>

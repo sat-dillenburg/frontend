@@ -1,4 +1,4 @@
-name: Do Something That Needs Scheduled
+name: Gatsby Build
 on:
   repository_dispatch:
     types: build-interim

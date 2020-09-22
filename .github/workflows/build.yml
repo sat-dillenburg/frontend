@@ -5,8 +5,9 @@ on:
 
 jobs:
   build:
-    name: Run Some Scheduled Thing
     runs-on: ubuntu-latest
     steps:
-      - name: Do Something
-        run: echo Doing Something...
+      - uses: actions/checkout@v1
+      - uses: enriikke/gatsby-gh-pages-action@v2
+        with:
+          access-token: ${{ secrets.ACCESS_TOKEN }}

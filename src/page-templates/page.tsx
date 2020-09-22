@@ -76,6 +76,11 @@ const styles = {
     h6 {
       font-family: 'Bebas Neue';
     }
+
+    blockquote {
+      margin-inline-start: 20px;
+      margin-inline-end: 20px;
+    }
   `,
 
   content: css`

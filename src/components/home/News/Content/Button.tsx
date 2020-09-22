@@ -9,13 +9,14 @@ export default function Button({ children }: Props): JSX.Element {
 const style = css`
   display: inline;
   background: #292929;
-  padding: 3px 0;
 
   font-family: 'Bebas';
   font-style: normal;
   font-weight: normal;
   letter-spacing: 0.25em;
   text-decoration: none;
+
+  box-decoration-break: clone;
 
   ${fluidRange(
     {
@@ -28,6 +29,8 @@ const style = css`
   )}
 
   margin: 10px 0;
+  padding: 2px 5px;
+
   color: #f2f2f2;
 `;
 

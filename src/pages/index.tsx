@@ -1,7 +1,10 @@
-import React from 'react';
-import { Redirect } from '@reach/router';
-import config from '../../gatsby-config'
+import React, { useEffect } from 'react';
+import { navigate } from 'gatsby';
 
 export default function Index(): JSX.Element {
-  return <Redirect noThrow to="home" />;
+  useEffect(() => {
+    navigate('/home');
+  });
+
+  return <></>;
 }

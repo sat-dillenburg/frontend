@@ -11,12 +11,19 @@ import Maintenance from '@src/components/home/Maintenance';
 import Events from '@src/components/home/Events';
 import Footer from '@components/Footer';
 
+import { Helmet } from 'react-helmet';
+
 import type { PageProps } from 'gatsby';
 import type { FixedObject } from 'gatsby-image';
 
 export default function Home({ data }: Props): JSX.Element {
   return (
     <Layout>
+      <Helmet>
+        <title>SAT Interim</title>
+        <meta name="description" content="Die SAT-Webseite befindet sich momentan in der Umbauphase, seid gespannt." />
+      </Helmet>
+
       <div className={$styles.container}>
         <Background image={data?.background?.childImageSharp?.fixed} />
 

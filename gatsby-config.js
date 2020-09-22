@@ -10,6 +10,8 @@ const path = require('path');
 module.exports = {
   pathPrefix: '/frontend',
   plugins: [
+    `gatsby-plugin-react-helmet`,
+
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -21,7 +23,7 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
 
-    'gatsby-plugin-typescript',
-    'gatsby-plugin-linaria',
+    `gatsby-plugin-typescript`,
+    `gatsby-plugin-linaria`,
   ],
 };

@@ -3,18 +3,33 @@ import { css } from 'linaria';
 
 import Layout from '@components/Layout';
 import Footer from '@components/Footer';
+
 import { Link } from 'gatsby';
+import { Helmet } from 'react-helmet';
 
 import '@assets/fonts/_fonts-roboto.css';
+
+function extractContent(s: string): string {
+  const span = document.createElement('span');
+  span.innerHTML = s;
+  return span.textContent || span.innerText;
+}
 
 export default function Page(props: Props): JSX.Element {
   const { pathContext } = props;
   const { title, content } = pathContext;
 
+  console.log();
+
   return (
     <Layout>
-      <div className={$styles.container}>
-        <div className={$styles.content}>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={extractContent(content)} />
+      </Helmet>
+
+      <div className={styles.container}>
+        <div className={styles.content}>
           <Link to="/home">Zurück</Link>
           <h1 className="title">{title}</h1>
           <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
@@ -26,7 +41,7 @@ export default function Page(props: Props): JSX.Element {
   );
 }
 
-const $styles = {
+const styles = {
   container: css`
     max-width: 1080px;
     margin: 0 auto;

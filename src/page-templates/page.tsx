@@ -10,7 +10,8 @@ import { Helmet } from 'react-helmet';
 import '@assets/fonts/_fonts-roboto.css';
 
 function extractContent(htmlString: string): string {
-  return htmlString.replace(/<[^>]+>/g, '').substring(0, 160);
+  const strippedContent = htmlString.replace(/<[^>]+>/g, '').substring(0, 150);
+  return `${strippedContent}...`;
 }
 
 export default function Page(props: Props): JSX.Element {

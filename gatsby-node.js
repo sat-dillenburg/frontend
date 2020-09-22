@@ -7,7 +7,7 @@ const { createRemoteFileNode } = require('gatsby-source-filesystem');
 const { default: slugify } = require('slugify');
 
 const TOKEN = '9e51a63c430da1afc2d8ff682beb2f';
-const URI_BASE = 'http://sat.gtnr.de';
+const URI_BASE = 'https://sat.gtnr.de';
 const URI_API_BASE = `${URI_BASE}/api`;
 const URI_STORAGE_BASE = `${URI_BASE}/storage`;
 

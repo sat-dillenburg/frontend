@@ -7,12 +7,15 @@ import '@assets/global.css';
 type Props = { children: React.ReactNode };
 const Layout = ({ children }: Props): JSX.Element => {
   useEffect(() => {
+    const fixViewportHeight = () => {
+      // fix viewport height
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
     const handleResize = () => {
       const afterOrientationChange = () => {
-        // fix viewport height
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-
+        fixViewportHeight();
         window.removeEventListener('resize', afterOrientationChange);
       };
 
@@ -20,7 +23,7 @@ const Layout = ({ children }: Props): JSX.Element => {
     };
 
     window.addEventListener('orientationchange', handleResize);
-    handleResize();
+    fixViewportHeight();
 
     return () => {
       window.removeEventListener('orientationchange', handleResize);

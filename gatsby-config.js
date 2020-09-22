@@ -8,6 +8,7 @@
 const path = require('path');
 
 module.exports = {
+  pathPrefix: "/frontend",
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,

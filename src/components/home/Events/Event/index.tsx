@@ -1,9 +1,9 @@
 import React from 'react';
 
-import EventDate from '@src/components/home/Events/Event/Date';
-import EventTitle from '@src/components/home/Events/Event/Title';
-import EventMeta from '@src/components/home/Events/Event/Meta';
-import EventLinks, { Link } from '@src/components/home/Events/Event/Links';
+import EventDate from '@components/home/Events/Event/Date';
+import EventTitle from '@components/home/Events/Event/Title';
+import EventMeta from '@components/home/Events/Event/Meta';
+import EventLinks, { Link } from '@components/home/Events/Event/Links';
 
 import { css } from 'linaria';
 

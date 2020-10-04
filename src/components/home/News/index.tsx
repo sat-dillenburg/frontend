@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation } from '@reach/router';
 
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import slugify from 'slugify';
@@ -34,8 +33,7 @@ const query = graphql`
 `;
 
 export default function News(): JSX.Element {
-  const dateData = useStaticQuery<SATInterimData>(query).satInterim;
-  const location = useLocation();
+  const dateData = useStaticQuery<GQLData>(query).satInterim;
 
   const image = dateData.news_image_file.childImageSharp.fluid;
   const title = dateData.news_title;
@@ -45,7 +43,7 @@ export default function News(): JSX.Element {
   };
 
   return (
-    <Link to={link.href} state={{ prevPath: location.pathname }} className={style}>
+    <Link to={link.href} className={style}>
       <Image image={image} />
       <Divider />
       <Content title={title} linkTitle={link.title} />
@@ -84,7 +82,7 @@ type ImageFluid = {
   };
 };
 
-type SATInterimData = {
+type GQLData = {
   satInterim: {
     news_link_title: string;
     news_title: string;

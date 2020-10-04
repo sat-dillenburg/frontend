@@ -1,22 +1,20 @@
 import React from 'react';
 
-import { graphql } from 'gatsby';
 import { css } from 'linaria';
 
 import Layout from '@components/Layout';
-import News from '@src/components/home/News';
-import Background from '@src/components/home/Background';
-import Logo from '@src/components/home/Logo';
-import Maintenance from '@src/components/home/Maintenance';
-import Events from '@src/components/home/Events';
 import Footer from '@components/Footer';
+
+import LiveTimerAlert from '@components/home/LiveTimerAlert';
+import News from '@components/home/News';
+import Background from '@components/home/Background';
+import Logo from '@components/home/Logo';
+import Maintenance from '@components/home/Maintenance';
+import Events from '@components/home/Events';
 
 import { Helmet } from 'react-helmet';
 
-import type { PageProps } from 'gatsby';
-import type { FixedObject } from 'gatsby-image';
-
-export default function Home({ data }: Props): JSX.Element {
+export default function Home(): JSX.Element {
   return (
     <Layout>
       <Helmet>
@@ -25,9 +23,11 @@ export default function Home({ data }: Props): JSX.Element {
       </Helmet>
 
       <div className={$styles.container}>
-        <Background image={data?.background?.childImageSharp?.fixed} />
+        <Background />
 
         <div className={$styles.content}>
+          <LiveTimerAlert />
+
           <Logo />
           <News />
           <Maintenance />
@@ -39,18 +39,6 @@ export default function Home({ data }: Props): JSX.Element {
     </Layout>
   );
 }
-
-export const $query = graphql`
-  query {
-    background: file(relativePath: { eq: "background.jpg" }) {
-      childImageSharp {
-        fixed(width: 2000, quality: 90) {
-          ...GatsbyImageSharpFixed_tracedSVG
-        }
-      }
-    }
-  }
-`;
 
 const $styles = {
   container: css`
@@ -82,15 +70,3 @@ const $styles = {
     }
   `,
 };
-
-type ImageFixed = {
-  childImageSharp: {
-    fixed: FixedObject;
-  };
-};
-
-interface Props extends PageProps {
-  data: {
-    background: ImageFixed;
-  };
-}

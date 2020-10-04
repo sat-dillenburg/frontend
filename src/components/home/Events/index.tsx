@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'linaria';
 
-import Event from '@src/components/home/Events/Event';
+import Event from '@components/home/Events/Event';
 import { graphql, useStaticQuery } from 'gatsby';
 
 const query = graphql`

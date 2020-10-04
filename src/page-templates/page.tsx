@@ -27,7 +27,7 @@ export default function Page(props: Props): JSX.Element {
 
       <div className={styles.container}>
         <div className={styles.content}>
-          <Link to="/home">Zurück</Link>
+          <Link to="/">Zurück</Link>
           <h1 className="title">{title}</h1>
           <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
         </div>

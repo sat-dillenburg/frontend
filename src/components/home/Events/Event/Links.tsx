@@ -25,6 +25,16 @@ const style = css`
 
   margin-top: 12px;
   display: inline-block;
+
+  border-right: 1px solid black;
+  padding-right: 15px;
+  margin-right: 15px;
+
+  &:last-of-type {
+    border-right: 0;
+    padding-right: 0;
+    margin-right: 0;
+  }
 `;
 
 type Props = { links?: Link[] };

@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 export default function Index(): JSX.Element {
   useEffect(() => {
     navigate('/');
-  });
+  }, []);
 
   return (
     <>

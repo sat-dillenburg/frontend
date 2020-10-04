@@ -16,12 +16,11 @@ function LiveTimerAlert(): JSX.Element | null {
     const showAlertStart = moment('Sonntag 18:00:00', 'dddd hh:mm:ss');
     const showAlertEnd = moment('Sonntag 21:00:00', 'dddd hh:mm:ss');
 
-    const showTimer = moment().isBefore(goingLive);
-
     const updateTime = () => {
-      if (moment().isBetween(showAlertStart, showAlertEnd)) {
-        setShowAlert(true);
-      }
+      const showTimer = moment().isBefore(goingLive);
+      const _showAlert = moment().isBetween(showAlertStart, showAlertEnd);
+
+      setShowAlert(_showAlert);
 
       if (showTimer) {
         const _timer = goingLive.fromNow();
@@ -35,7 +34,7 @@ function LiveTimerAlert(): JSX.Element | null {
     updateTime();
 
     return () => clearInterval(interval);
-  });
+  }, []);
 
   return showAlert ? (
     <div className={$style}>

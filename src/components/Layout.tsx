@@ -28,7 +28,7 @@ const Layout = ({ children }: Props): JSX.Element => {
     return () => {
       window.removeEventListener('orientationchange', handleResize);
     };
-  });
+  }, []);
 
   return <>{children}</>;
 };

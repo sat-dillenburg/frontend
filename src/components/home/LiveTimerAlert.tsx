@@ -30,7 +30,7 @@ function LiveTimerAlert(): JSX.Element | null {
       }
     };
 
-    const interval = setInterval(updateTime, 1000);
+    const interval = setInterval(updateTime, 10 * 1000);
     updateTime();
 
     return () => clearInterval(interval);

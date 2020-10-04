@@ -6,7 +6,7 @@ export default function Links({ links }: Props): JSX.Element {
     <>
       {links &&
         links.map(({ value }) => (
-          <a key={value.link} className={style} href={value.link}>
+          <a key={value.link} className={style} href={value.link} target="_blank" rel="noreferrer">
             {value.title}
           </a>
         ))}

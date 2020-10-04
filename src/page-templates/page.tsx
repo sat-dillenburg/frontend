@@ -7,6 +7,8 @@ import Footer from '@components/Footer';
 import { Link } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
+import { hyphenateHTMLSync, hyphenateSync } from 'hyphen/de';
+
 import '@assets/fonts/_fonts-roboto.css';
 
 function extractContent(htmlString: string): string {
@@ -28,8 +30,8 @@ export default function Page(props: Props): JSX.Element {
       <div className={styles.container}>
         <div className={styles.content}>
           <Link to="/">Zurück</Link>
-          <h1 className="title">{title}</h1>
-          <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
+          <h1 className="title">{hyphenateSync(title)}</h1>
+          <div className="content" dangerouslySetInnerHTML={{ __html: hyphenateHTMLSync(content) }} />
         </div>
       </div>
 

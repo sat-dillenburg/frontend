@@ -8,12 +8,19 @@ import { Link } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
 import { hyphenateHTMLSync, hyphenateSync } from 'hyphen/de';
+import { AllHtmlEntities } from 'html-entities';
 
 import '@assets/fonts/_fonts-roboto.css';
+
+const entities = new AllHtmlEntities();
 
 function extractContent(htmlString: string): string {
   const strippedContent = htmlString.replace(/<[^>]+>/g, '').substring(0, 150);
   return `${strippedContent}...`;
+}
+
+function decode(string: string, hyphenFn: (string: string) => string): string {
+  return hyphenFn(entities.decode(string));
 }
 
 export default function Page(props: Props): JSX.Element {
@@ -30,8 +37,8 @@ export default function Page(props: Props): JSX.Element {
       <div className={styles.container}>
         <div className={styles.content}>
           <Link to="/">Zurück</Link>
-          <h1 className="title">{hyphenateSync(title)}</h1>
-          <div className="content" dangerouslySetInnerHTML={{ __html: hyphenateHTMLSync(content) }} />
+          <h1 className="title">{decode(title, hyphenateSync)}</h1>
+          <div className="content" dangerouslySetInnerHTML={{ __html: decode(content, hyphenateHTMLSync) }} />
         </div>
       </div>
 

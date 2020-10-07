@@ -3,18 +3,20 @@ import React from 'react';
 import EventDate from '@components/home/Events/Event/Date';
 import EventTitle from '@components/home/Events/Event/Title';
 import EventMeta from '@components/home/Events/Event/Meta';
+import EventText from '@components/home/Events/Event/Text';
 import EventLinks, { Link } from '@components/home/Events/Event/Links';
 
 import { css } from 'linaria';
 
 export default function Event(data: Props): JSX.Element {
-  const { date, subject, speaker } = data;
+  const { date, subject, text, speaker } = data;
   const { moderation, band, links } = data;
 
   return (
     <div className={styles.date}>
       <EventDate date={date} />
       <EventTitle subject={subject} speaker={speaker} />
+      <EventText text={text} />
       <EventMeta moderation={moderation} band={band} />
       <EventLinks links={links} />
 
@@ -46,6 +48,7 @@ const styles = {
 type Props = {
   date: string;
   subject: string;
+  text: string;
   speaker: string;
   moderation?: string;
   band?: string;

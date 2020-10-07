@@ -11,6 +11,7 @@ const query = graphql`
         node {
           id
           title
+          text
           speaker
           date(formatString: "DD.MM.")
           band
@@ -38,6 +39,7 @@ export default function Events(): JSX.Element {
           date={node.date}
           speaker={node.speaker}
           subject={node.title}
+          text={node.text}
           band={node.band}
           moderation={node.moderation}
           links={node.links}
@@ -73,6 +75,7 @@ type SatEventEdge = {
   node: {
     id: string;
     title: string;
+    text: string;
     speaker: string;
     date: string;
     band: string;

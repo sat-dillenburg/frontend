@@ -19,7 +19,10 @@ export default function Home(): JSX.Element {
     <Layout>
       <Helmet>
         <title>SAT Interim</title>
-        <meta name="description" content="Die SAT-Webseite befindet sich momentan in der Umbauphase, seid gespannt." />
+        <meta
+          name="description"
+          content={`SAT steht für Sonntagabendtreff, ein überkonfessioneller Jugendgottesdienst in Dillenburg.`}
+        />
       </Helmet>
 
       <div className={$styles.container}>

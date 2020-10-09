@@ -13,6 +13,14 @@ const URI_STORAGE_BASE = `${URI_BASE}/storage`;
 
 const cockpitApi = (action) => `${URI_API_BASE}/${action}?token=${TOKEN}`;
 
+console.log('-----');
+console.log('-----');
+console.log('-----');
+console.log(process.env.DIRECTUS_TOKEN);
+console.log('-----');
+console.log('-----');
+console.log('-----');
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 

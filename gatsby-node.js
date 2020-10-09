@@ -1,25 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const crypto = require('crypto');
-const axios = require('axios');
 
 const { createRemoteFileNode } = require('gatsby-source-filesystem');
-const { default: slugify } = require('slugify');
+const DirectusSDK = require('@directus/sdk-js').default;
 
-const TOKEN = '9e51a63c430da1afc2d8ff682beb2f';
-const URI_BASE = 'https://sat.gtnr.de';
-const URI_API_BASE = `${URI_BASE}/api`;
-const URI_STORAGE_BASE = `${URI_BASE}/storage`;
-
-const cockpitApi = (action) => `${URI_API_BASE}/${action}?token=${TOKEN}`;
-
-console.log('-----');
-console.log('-----');
-console.log('-----');
-console.log(process.env.DIRECTUS_TOKEN);
-console.log('-----');
-console.log('-----');
-console.log('-----');
+const directusApi = new DirectusSDK({
+  url: 'https://admin.sat-dill.de/',
+  project: 'sat-dillenburg',
+  token: process.env.DIRECTUS_TOKEN,
+});
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
@@ -32,7 +22,7 @@ exports.createPages = async ({ graphql, actions }) => {
           node {
             title
             content
-            id
+            slug
           }
         }
       }
@@ -45,11 +35,11 @@ exports.createPages = async ({ graphql, actions }) => {
 
   result.data.allSatPage.edges.forEach((edge) => {
     createPage({
-      path: `page/${edge.node.id}`,
+      path: `p/${edge.node.slug}`,
       component: pageTemplate,
       context: {
         title: edge.node.title,
-        content: edge.node.content.replace(/\/storage/g, URI_STORAGE_BASE),
+        content: edge.node.content,
       },
     });
   });
@@ -74,14 +64,13 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 exports.onCreateNode = async ({ node, actions: { createNode }, store, cache, createNodeId }) => {
   if (node.internal.type === 'SATInterim') {
     const fileNode = await createRemoteFileNode({
-      url: `${URI_BASE}/${node.news_image.path}`,
+      url: node.news_image.data.full_url,
       parentNodeId: node.id,
       createNode,
       createNodeId,
       cache,
       store,
     });
-
     if (fileNode) {
       node.news_image_file___NODE = fileNode.id;
     }
@@ -91,20 +80,38 @@ exports.onCreateNode = async ({ node, actions: { createNode }, store, cache, cre
 exports.sourceNodes = async (props) => {
   await createSATInterimNode(props);
   await createSATPageNodes(props);
+  await createSATCurrentEventNodes(props);
   await createSATEventNodes(props);
+};
+
+const filterId = (value) => {
+  if (typeof value === 'object' && value.id) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, ...rest } = value;
+    return rest;
+  }
+
+  return value;
 };
 
 const createSATInterimNode = async (props) => {
   const { createNode } = props.actions;
 
-  const satInterimData = () =>
-    axios.post(cockpitApi('singletons/get/satinterim'), {
-      populate: 1,
-    });
+  const res = await directusApi.getItem('sat_interim', 1, { fields: '*.*' });
 
-  const res = await satInterimData();
+  const satInterimDataRaw = res.data;
+  const satInterimDataEntries = Object.entries(satInterimDataRaw);
+
+  const satInterimDataFiltered = {};
+
+  for (let i = 0; i < satInterimDataEntries.length; i += 1) {
+    const [key, value] = satInterimDataEntries[i];
+    satInterimDataFiltered[key] = filterId(value);
+  }
 
   const satInterimNode = {
+    ...satInterimDataFiltered,
+
     id: 'sat-interim',
 
     parent: `__SOURCE__`,
@@ -113,8 +120,6 @@ const createSATInterimNode = async (props) => {
     internal: {
       type: `SATInterim`,
     },
-
-    ...res.data,
   };
 
   const nodeString = JSON.stringify(satInterimNode);
@@ -127,27 +132,20 @@ const createSATInterimNode = async (props) => {
 const createSATPageNodes = async (props) => {
   const { createNode } = props.actions;
 
-  const satPageData = () =>
-    axios.post(cockpitApi('collections/get/blog'), {
-      populate: 1,
-      limit: 0,
-    });
+  const res = await directusApi.getItems('pages', { fields: '*.*', limit: -1 });
+  const satPagesDataRaw = res.data;
 
-  const res = await satPageData();
-
-  for (let i = 0; i < res.data.entries.length; i++) {
-    const satPage = res.data.entries[i];
+  for (let i = 0; i < satPagesDataRaw.length; i += 1) {
+    const satPage = satPagesDataRaw[i];
     const satPageNode = {
-      id: slugify(satPage.title).toLowerCase(),
+      ...satPage,
 
+      id: satPage.slug,
       parent: `__SOURCE__`,
       children: [],
-
       internal: {
         type: `SATPage`,
       },
-
-      ...satPage,
     };
 
     const nodeString = JSON.stringify(satPageNode);
@@ -159,31 +157,138 @@ const createSATPageNodes = async (props) => {
 };
 
 const createSATEventNodes = async (props) => {
-  const { createNode } = props.actions;
+  const { createNode, createTypes } = props.actions;
 
-  const satEventsData = () =>
-    axios.post(cockpitApi('collections/get/dates'), {
-      populate: 1,
-      limit: 0,
-    });
+  createTypes(`
+    type SermonFileData {
+      asset_url: String
+      full_url: String
+      url: String
+    }
 
-  const res = await satEventsData();
+    type SermonFile {
+      charset: String
+      checksum: String
+      data: SermonFileData
+      description: String
+      duration: Int
+      filename_disk: String
+      filesize: Int
+      filename_download: String
+      id: Int
+      location: String
+      private_hash: String
+      storage: String
+      title: String
+      type: String
+      uploaded_by: Int
+      uploaded_on: Date @dateformat
+    }
 
-  for (let i = 0; i < res.data.entries.length; i++) {
-    const satEvent = res.data.entries[i];
-    satEvent.links = typeof satEvent.links === 'string' ? [] : satEvent.links;
+    type SATEvent implements Node {
+      season: String!
+      date: Date! @dateformat
+      speaker: String!
+      topic: String!
+
+      additional_text: String
+      moderation: String
+      band: String
+      sermon_file: SermonFile
+    }
+  `);
+
+  const res = await directusApi.getItems('events', { fields: '*.*', limit: -1 });
+  const satEventsDataRaw = res.data;
+
+  for (let i = 0; i < satEventsDataRaw.length; i++) {
+    const satEvent = satEventsDataRaw[i];
 
     const satEventNode = {
-      id: satEvent._id,
+      ...satEvent,
 
+      id: `event-${satEvent.id}`,
       parent: `__SOURCE__`,
       children: [],
-
       internal: {
         type: `SATEvent`,
       },
+    };
 
+    const nodeString = JSON.stringify(satEventNode);
+    const contentDigest = crypto.createHash(`md5`).update(nodeString).digest(`hex`);
+
+    satEventNode.internal.contentDigest = contentDigest;
+    createNode(satEventNode);
+  }
+};
+
+const createSATCurrentEventNodes = async (props) => {
+  const { createNode, createTypes } = props.actions;
+
+  createTypes(`
+    type SermonFileData {
+      asset_url: String
+      full_url: String
+      url: String
+    }
+
+    type SermonFile {
+      charset: String
+      checksum: String
+      data: SermonFileData
+      description: String
+      duration: Int
+      filename_disk: String
+      filesize: Int
+      filename_download: String
+      id: Int
+      location: String
+      private_hash: String
+      storage: String
+      title: String
+      type: String
+      uploaded_by: Int
+      uploaded_on: Date @dateformat
+    }
+
+    type SATCurrentEvent implements Node {
+      season: String!
+      date: Date! @dateformat
+      speaker: String!
+      topic: String!
+
+      additional_text: String
+      moderation: String
+      band: String
+      sermon_file: SermonFile
+    }
+  `);
+
+  const res = await directusApi.getItems('events', {
+    fields: '*.*',
+    limit: -1,
+    filter: {
+      date: {
+        gte: 'now',
+      },
+    },
+  });
+
+  const satEventsDataRaw = res.data;
+
+  for (let i = 0; i < satEventsDataRaw.length; i++) {
+    const satEvent = satEventsDataRaw[i];
+
+    const satEventNode = {
       ...satEvent,
+
+      id: `current-event-${satEvent.id}`,
+      parent: `__SOURCE__`,
+      children: [],
+      internal: {
+        type: `SATCurrentEvent`,
+      },
     };
 
     const nodeString = JSON.stringify(satEventNode);

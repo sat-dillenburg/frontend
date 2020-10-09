@@ -1,10 +1,12 @@
 import React from 'react';
+
 import { css } from 'linaria';
+import { hyphenateSync } from 'hyphen/de';
 
 export default function Title({ subject, speaker }: Props): JSX.Element {
   return (
     <div className={style}>
-      <b className="subject">{subject.toUpperCase()}</b>
+      <b className="subject">{hyphenateSync(subject.toUpperCase())}</b>
       {' / '}
       <span className="speaker">{speaker.toUpperCase()}</span>
     </div>

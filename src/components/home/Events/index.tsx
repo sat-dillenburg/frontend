@@ -1,45 +1,58 @@
 import React from 'react';
-import { css } from 'linaria';
 
 import Event from '@components/home/Events/Event';
+import { Link } from '@components/home/Events/Event/Links';
+
 import { graphql, useStaticQuery } from 'gatsby';
+import { css } from 'linaria';
+import moment from 'moment';
 
 const query = graphql`
   query {
-    satEvents: allSatEvent(filter: { show: { eq: true } }, sort: { fields: date, order: ASC }) {
+    satCurrentEvents: allSatCurrentEvent(sort: { fields: date, order: ASC }) {
       edges {
         node {
           id
-          title
-          text
           speaker
-          date(formatString: "DD.MM.")
+          date(formatString: "YYYY-MM-DD")
           band
           moderation
           links {
-            value {
-              link
-              title
-            }
+            href
+            title
           }
+          additional_text
+          season
+          topic
         }
       }
     }
   }
 `;
 
+const filter = (eventsData: SATEventsData['satCurrentEvents']) => {
+  const today = moment();
+  const future = moment().add(3, 'weeks');
+  const $eventsDataClean = eventsData.edges.filter((event) => {
+    const eventDate = moment(event.node.date, 'YYYY-MM-DD');
+    return eventDate.isBetween(today, future);
+  });
+
+  return $eventsDataClean;
+};
+
 export default function Events(): JSX.Element {
-  const datesData = useStaticQuery<SATEventsData>(query).satEvents;
+  const eventsData = useStaticQuery<SATEventsData>(query).satCurrentEvents;
 
   return (
     <div className={$styles.dates}>
-      {datesData.edges.map(({ node }) => (
+      {filter(eventsData).map(({ node }) => (
         <Event
           key={node.id}
-          date={node.date}
+          date={moment(node.date, 'YYYY-MM-DD').format('DD.MM.')}
           speaker={node.speaker}
-          subject={node.title}
-          text={node.text}
+          subject={node.topic}
+          text={node.additional_text}
           band={node.band}
           moderation={node.moderation}
           links={node.links}
@@ -66,7 +79,7 @@ const $styles = {
 };
 
 type SATEventsData = {
-  satEvents: {
+  satCurrentEvents: {
     edges: SatEventEdge[];
   };
 };
@@ -74,19 +87,23 @@ type SATEventsData = {
 type SatEventEdge = {
   node: {
     id: string;
-    title: string;
-    text: string;
-    speaker: string;
+
+    season: number;
     date: string;
-    band: string;
-    moderation: string;
-    links: SATEventLink[];
+    speaker: string;
+    topic: string;
+    additional_text: string | null;
+
+    band: string | null;
+    moderation: string | null;
+
+    links: Array<Link> | null;
+    sermon_file: SATSermonLink | null;
   };
 };
 
-type SATEventLink = {
-  value: {
-    link: string;
-    title: string;
+type SATSermonLink = {
+  data: {
+    full_url: string;
   };
 };

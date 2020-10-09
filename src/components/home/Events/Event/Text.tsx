@@ -33,4 +33,4 @@ const style = css`
   }
 `;
 
-type Props = { text?: string };
+type Props = { text: string | null };

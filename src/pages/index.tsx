@@ -79,40 +79,37 @@ const $styles = {
 
 const transformer = (data: PreviewData): NewsData => ({
   satInterim: {
-    news_blog_entry: {
-      title: data.link.title,
-      content: data.link.content,
-    },
-
+    news_title: data.news_title,
     news_image_file: {
       childImageSharp: {
         fluid: {
           aspectRatio: 0,
           sizes: '',
-          src: data.bild.data.full_url,
+          src: data.news_image.data.full_url,
           srcSet: '',
           tracedSVG: '',
         },
       },
     },
 
-    news_link_title: data.link_title,
-    news_title: data.titel,
+    news_article_display_name: data.news_article_display_name,
+    news_article: {
+      slug: data.news_article.slug,
+    },
   },
 });
 
 type PreviewData = {
-  titel: string;
+  news_title: string;
 
-  bild: {
+  news_image: {
     data: {
       full_url: string;
     };
   };
 
-  link_title: string;
-  link: {
-    title: string;
-    content: string;
+  news_article_display_name: string;
+  news_article: {
+    slug: string;
   };
 };

@@ -14,11 +14,11 @@ const Footer = (): JSX.Element => (
     sat-dillenburg.de
     <br />
     <br />
-    <Link to="/page/impressum">Impressum</Link>
+    <Link to="/p/imprint">Impressum</Link>
     <span> | </span>
-    <Link to="/page/haftungsausschluss-(disclaimer)">Haftungsausschluss</Link>
+    <Link to="/p/disclaimer">Haftungsausschluss</Link>
     <span> | </span>
-    <Link to="/page/datenschutzerklarung">Datenschutzerklärung</Link>
+    <Link to="/p/privacy-policy">Datenschutzerklärung</Link>
   </div>
 );
 

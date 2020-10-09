@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import slugify from 'slugify';
 
 import Image from '@components/home/News/Image';
 import Divider from '@components/home/News/Divider';
@@ -14,13 +13,11 @@ import type { FluidObject } from 'gatsby-image';
 const query = graphql`
   query {
     satInterim: satInterim {
-      news_link_title
       news_title
-
-      news_blog_entry {
-        title
+      news_article {
+        slug
       }
-
+      news_article_display_name
       news_image_file {
         childImageSharp {
           fluid(maxWidth: 1080, quality: 90, srcSetBreakpoints: [580, 680, 780, 880, 980, 1080]) {
@@ -37,11 +34,11 @@ export default function News({ data }: Props): JSX.Element {
   const dateData = _data.satInterim;
 
   const image = dateData.news_image_file.childImageSharp.fluid;
-
   const title = dateData.news_title;
+
   const link = {
-    title: dateData.news_link_title,
-    href: `/page/${slugify(dateData.news_blog_entry.title).toLowerCase()}`,
+    title: dateData.news_article_display_name,
+    href: `/p/${dateData.news_article.slug}`,
   };
 
   return (
@@ -90,12 +87,11 @@ export type ImageFluid = {
 
 export type NewsData = {
   satInterim: {
-    news_link_title: string;
     news_title: string;
 
-    news_blog_entry: {
-      title: string;
-      content: string;
+    news_article_display_name: string;
+    news_article: {
+      slug: string;
     };
 
     news_image_file: ImageFluid;

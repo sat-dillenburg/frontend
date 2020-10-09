@@ -5,9 +5,9 @@ export default function Links({ links }: Props): JSX.Element {
   return (
     <>
       {links &&
-        links.map(({ value }) => (
-          <a key={value.link} className={style} href={value.link} target="_blank" rel="noreferrer">
-            {value.title}
+        links.map(({ title, href }) => (
+          <a key={href} className={style} href={href} target="_blank" rel="noreferrer">
+            {title}
           </a>
         ))}
     </>
@@ -37,11 +37,9 @@ const style = css`
   }
 `;
 
-type Props = { links?: Link[] };
+type Props = { links: Link[] | null };
 
 export type Link = {
-  value: {
-    link: string;
-    title: string;
-  };
+  href: string;
+  title: string;
 };

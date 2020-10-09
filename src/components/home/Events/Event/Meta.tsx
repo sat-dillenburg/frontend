@@ -41,4 +41,4 @@ const style = css`
   }
 `;
 
-type Props = { moderation?: string; band?: string };
+type Props = { moderation: string | null; band: string | null };

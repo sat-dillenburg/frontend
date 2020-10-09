@@ -47,10 +47,11 @@ const styles = {
 
 type Props = {
   date: string;
-  subject: string;
-  text: string;
   speaker: string;
-  moderation?: string;
-  band?: string;
-  links?: Link[];
+  subject: string;
+  text: string | null;
+
+  moderation: string | null;
+  band: string | null;
+  links: Link[] | null;
 };

@@ -75,6 +75,11 @@ const styles = {
       color: #292929;
     }
 
+    li {
+      margin-block-start: 0.5em;
+      margin-block-end: 0.5em;
+    }
+
     .title {
       font-size: 44px;
     }

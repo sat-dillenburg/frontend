@@ -7,6 +7,9 @@ on:
   repository_dispatch:
     types: build-interim
 
+  schedule:
+    - cron: "00 05 * * *"
+
 jobs:
   build:
     runs-on: ubuntu-latest

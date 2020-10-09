@@ -25,7 +25,6 @@
       "@hooks/*": ["./hooks/*"],
       "@components/*": ["./components/*"],
       "@pages/*": ["./pages/*"],
-      "@page-templates/*": ["./page-templates/*"],
       "@styles/*": ["./styles/*"],
     }
   },

@@ -10,6 +10,8 @@ import { Helmet } from 'react-helmet';
 import { hyphenateHTMLSync, hyphenateSync } from 'hyphen/de';
 import { AllHtmlEntities } from 'html-entities';
 
+import usePreviewData from '@hooks/use-preview-data';
+
 import '@assets/fonts/_fonts-roboto.css';
 
 const entities = new AllHtmlEntities();
@@ -24,8 +26,11 @@ function decode(string: string, hyphenFn: (string: string) => string): string {
 }
 
 export default function Page(props: Props): JSX.Element {
+  const previewData = usePreviewData(transformer);
   const { pathContext } = props;
-  const { title, content } = pathContext;
+
+  const content = previewData?.content ?? pathContext.content ?? '<h1>...</h1>';
+  const title = previewData?.title ?? pathContext.title ?? 'Bitte warte kurz, der Inhalt wird geladen..';
 
   return (
     <Layout>
@@ -100,10 +105,23 @@ const styles = {
   `,
 };
 
+const transformer = (data: PreviewData): PageData => data;
+
 type Props = {
   path: string;
   pathContext: {
     title: string;
     content: string;
   };
+};
+
+type PageData = {
+  title: string;
+  content: string;
+};
+
+type PreviewData = {
+  slug: string;
+  title: string;
+  content: string;
 };

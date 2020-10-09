@@ -14,7 +14,7 @@ const directusApi = new DirectusSDK({
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
-  const pageTemplate = path.resolve(`src/page-templates/page.tsx`);
+  const pageTemplate = path.resolve(`src/pages/p.tsx`);
   const result = await graphql(`
     query loadPagesQuery {
       allSatPage {
@@ -54,7 +54,6 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         '@hooks': path.resolve(__dirname, 'src', 'hooks'),
         '@components': path.resolve(__dirname, 'src', 'components'),
         '@pages': path.resolve(__dirname, 'src', 'pages'),
-        '@page-templates': path.resolve(__dirname, 'src', 'page-templates'),
         '@styles': path.resolve(__dirname, 'src', 'styles'),
       },
     },

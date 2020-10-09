@@ -32,10 +32,12 @@ const query = graphql`
   }
 `;
 
-export default function News(): JSX.Element {
-  const dateData = useStaticQuery<GQLData>(query).satInterim;
+export default function News({ data }: Props): JSX.Element {
+  const _data = data ? data : useStaticQuery<NewsData>(query);
+  const dateData = _data.satInterim;
 
   const image = dateData.news_image_file.childImageSharp.fluid;
+
   const title = dateData.news_title;
   const link = {
     title: dateData.news_link_title,
@@ -76,13 +78,17 @@ const style = css`
   }
 `;
 
-type ImageFluid = {
+type Props = {
+  data?: NewsData;
+};
+
+export type ImageFluid = {
   childImageSharp: {
     fluid: FluidObject;
   };
 };
 
-type GQLData = {
+export type NewsData = {
   satInterim: {
     news_link_title: string;
     news_title: string;

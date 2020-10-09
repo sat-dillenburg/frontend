@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
+    "build": "rm -rf public/ .cache/ .linaria-cache/ && gatsby build",
     "build:disclaimer": "yarn licenses generate-disclaimer --production=true > DISCLAIMER.md",
     "develop": "gatsby develop -p 8080",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",

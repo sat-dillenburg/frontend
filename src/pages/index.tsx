@@ -1,20 +1,23 @@
 import React from 'react';
 
 import { css } from 'linaria';
+import { Helmet } from 'react-helmet';
+
+import usePreviewData from '@hooks/use-preview-data';
 
 import Layout from '@components/Layout';
 import Footer from '@components/Footer';
 
 import LiveTimerAlert from '@components/home/LiveTimerAlert';
-import News from '@components/home/News';
+import News, { NewsData } from '@components/home/News';
 import Background from '@components/home/Background';
 import Logo from '@components/home/Logo';
 import Maintenance from '@components/home/Maintenance';
 import Events from '@components/home/Events';
 
-import { Helmet } from 'react-helmet';
-
 export default function Home(): JSX.Element {
+  const previewData = usePreviewData(transformer);
+
   return (
     <Layout>
       <Helmet>
@@ -32,7 +35,7 @@ export default function Home(): JSX.Element {
           <LiveTimerAlert />
 
           <Logo />
-          <News />
+          <News data={previewData} />
           <Maintenance />
         </div>
       </div>
@@ -72,4 +75,44 @@ const $styles = {
       height: calc(var(--vh, 1vh) * 100);
     }
   `,
+};
+
+const transformer = (data: PreviewData): NewsData => ({
+  satInterim: {
+    news_blog_entry: {
+      title: data.link.title,
+      content: data.link.content,
+    },
+
+    news_image_file: {
+      childImageSharp: {
+        fluid: {
+          aspectRatio: 0,
+          sizes: '',
+          src: data.bild.data.full_url,
+          srcSet: '',
+          tracedSVG: '',
+        },
+      },
+    },
+
+    news_link_title: data.link_title,
+    news_title: data.titel,
+  },
+});
+
+type PreviewData = {
+  titel: string;
+
+  bild: {
+    data: {
+      full_url: string;
+    };
+  };
+
+  link_title: string;
+  link: {
+    title: string;
+    content: string;
+  };
 };

@@ -22,6 +22,7 @@
     "paths": {
       "@src/*": ["./*"],
       "@assets/*": ["./assets/*"],
+      "@hooks/*": ["./hooks/*"],
       "@components/*": ["./components/*"],
       "@pages/*": ["./pages/*"],
       "@page-templates/*": ["./page-templates/*"],

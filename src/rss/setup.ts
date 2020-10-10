@@ -18,7 +18,7 @@ export default (options: Options): Options => {
   const itunesKeywords =
     'Kirche, Bibel, Gemeinde, Dillenburg, SAT Dillenburg, SAT, Sonntagabendtreff, Jesus, Gott, Leben';
 
-  const itunesImage = [{ _attr: { href: `${options.query.site.siteMetadata.siteUrl}/public/logo.png` } }];
+  const itunesImage = [{ _attr: { href: `${options.query.site.siteMetadata.siteUrl}/public/logo_square_1600.png` } }];
 
   // eslint-disable-next-line prettier/prettier
   const categoryReligion = [
@@ -39,7 +39,7 @@ export default (options: Options): Options => {
     description,
     feed_url: `${options.query.site.siteMetadata.siteUrl}/podcast.xml`,
     site_url: `${options.query.site.siteMetadata.siteUrl}`,
-    image_url: `${options.query.site.siteMetadata.siteUrl}/public/logo.png`,
+    image_url: `${options.query.site.siteMetadata.siteUrl}/public/logo_square_1600.png`,
     docs: 'http://www.rssboard.org/rss-specification',
     webMaster: 'Silas Rosenkranz',
     copyright: '2006 SAT Dillenburg',

@@ -64,7 +64,7 @@ export default [
             { 'itunes:author': `${node.speaker} @ SAT Dillenburg` },
             { 'itunes:duration': formatDuration(node.sermon_file?.duration) },
             { 'itunes:explicit': 'clean' },
-            { 'itunes:image': `${site.siteMetadata.siteUrl}/public/logo.png` },
+            { 'itunes:image': `${site.siteMetadata.siteUrl}/public/logo_square_1600.png` },
             { 'itunes:keywords': '' },
             { 'itunes:summary': description },
             { enclosure: enclosure },

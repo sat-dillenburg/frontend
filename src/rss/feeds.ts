@@ -46,9 +46,7 @@ export default [
         ];
 
         const description =
-          `Thema: ${node.topic}` +
-          (node.additional_text ? ` | ${node.additional_text}<br>` : `<br>`) +
-          `Sprecher: ${node.speaker}`;
+          `${node.topic}` + (node.additional_text ? ` | ${node.additional_text}` : ``) + ` - ${node.speaker}`;
 
         return {
           title: node.topic,
@@ -64,7 +62,7 @@ export default [
             { 'itunes:author': `${node.speaker} @ SAT Dillenburg` },
             { 'itunes:duration': formatDuration(node.sermon_file?.duration) },
             { 'itunes:explicit': 'clean' },
-            { 'itunes:image': `${site.siteMetadata.siteUrl}/public/logo_square_1600.png` },
+            { 'itunes:image': `${site.siteMetadata.siteUrl}/public/podcast_cover.png` },
             { 'itunes:keywords': '' },
             { 'itunes:summary': description },
             { enclosure: enclosure },

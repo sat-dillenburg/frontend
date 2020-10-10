@@ -55,8 +55,6 @@ export default function Page(props: Props): JSX.Element {
 const styles = {
   container: css`
     max-width: 680px;
-    min-width: 680px;
-
     margin: 0 auto;
 
     display: flex;
@@ -107,6 +105,7 @@ const styles = {
   content: css`
     position: relative;
     flex: 1 1 auto;
+
     width: 100%;
     max-width: 100%;
 

@@ -5,9 +5,11 @@ const crypto = require('crypto');
 const { createRemoteFileNode } = require('gatsby-source-filesystem');
 const DirectusSDK = require('@directus/sdk-js').default;
 
+const config = require('./gatsby-config');
+
 const directusApi = new DirectusSDK({
-  url: 'https://admin.sat-dill.de/',
-  project: 'sat-dillenburg',
+  url: config.siteMetadata.directus.url,
+  project: config.siteMetadata.directus.project,
   token: process.env.DIRECTUS_TOKEN,
 });
 

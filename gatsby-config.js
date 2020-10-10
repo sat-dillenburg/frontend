@@ -5,10 +5,29 @@
  */
 
 /* eslint-disable @typescript-eslint/no-var-requires */
+
+require('ts-node').register({
+  compilerOptions: {
+    module: 'commonjs',
+    target: 'es2017',
+  },
+});
+
 const path = require('path');
+
+const { feedOptions } = require('./src/rss/index');
 
 module.exports = {
   pathPrefix: '/frontend',
+  siteMetadata: {
+    siteUrl: `https://sat-dillenburg.de`,
+
+    directus: {
+      url: 'https://admin.sat-dill.de/',
+      project: 'sat-dillenburg',
+    },
+  },
+
   plugins: [
     `gatsby-plugin-react-helmet`,
 
@@ -25,5 +44,10 @@ module.exports = {
 
     `gatsby-plugin-typescript`,
     `gatsby-plugin-linaria`,
+
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: feedOptions,
+    },
   ],
 };

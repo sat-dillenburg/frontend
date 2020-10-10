@@ -6,7 +6,7 @@ type Options = {
 };
 
 const description =
-  'SAT steht für Sonntagabendtreff, ein überkonfessioneller Jugendgottesdienst in Dillenburg. <br><br>Hier findest du die aktuellen Predigten & auch die der letzten Staffeln.';
+  'Hier findest du alle Predigten zum SAT. Der SAT (Sonntagabendtreff) ist ein überkonfessioneller Jugendgottesdienst. Gemeinsam wollen wir die Bibel verstehen, Gott begegnen und lernen, erfüllt zu leben.';
 
 export default (options: Options): Options => {
   // eslint-disable-next-line prettier/prettier
@@ -62,7 +62,7 @@ export default (options: Options): Options => {
       { 'itunes:image': itunesImage },
       { 'itunes:keywords': itunesKeywords },
       { 'itunes:owner': itunesOwner },
-      { 'itunes:summary': `<![CDATA[ ${description} ]]>` },
+      { 'itunes:summary': description },
     ],
   };
 };

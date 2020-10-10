@@ -19,6 +19,10 @@ const query = graphql`
       }
       news_article_display_name
       news_image_file {
+        colorPalette {
+          vibrant
+        }
+
         childImageSharp {
           fluid(maxWidth: 1080, quality: 90, srcSetBreakpoints: [580, 680, 780, 880, 980, 1080]) {
             ...GatsbyImageSharpFluid_tracedSVG
@@ -32,8 +36,10 @@ const query = graphql`
 export default function News({ data }: Props): JSX.Element {
   const _data = data ? data : useStaticQuery<NewsData>(query);
   const dateData = _data.satInterim;
+  console.log(dateData);
 
   const image = dateData.news_image_file.childImageSharp.fluid;
+  const color = dateData.news_image_file.colorPalette.vibrant;
   const title = dateData.news_title;
 
   const link = {
@@ -43,7 +49,7 @@ export default function News({ data }: Props): JSX.Element {
 
   return (
     <Link to={link.href} className={style}>
-      <Image image={image} />
+      <Image image={image} color={color} />
       <Divider />
       <Content title={title} linkTitle={link.title} />
     </Link>
@@ -80,6 +86,10 @@ type Props = {
 };
 
 export type ImageFluid = {
+  colorPalette: {
+    vibrant: string;
+  };
+
   childImageSharp: {
     fluid: FluidObject;
   };

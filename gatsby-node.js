@@ -3,7 +3,9 @@ const path = require('path');
 const crypto = require('crypto');
 
 const { createRemoteFileNode } = require('gatsby-source-filesystem');
+
 const DirectusSDK = require('@directus/sdk-js').default;
+const Vibrant = require('node-vibrant');
 
 const config = require('./gatsby-config');
 
@@ -62,7 +64,38 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   });
 };
 
-exports.onCreateNode = async ({ node, actions: { createNode }, store, cache, createNodeId }) => {
+exports.onCreateNode = async (props) => {
+  await populateSATInterimWithFile(props);
+  await populateImageWithColors(props);
+};
+
+const populateImageWithColors = async (props) => {
+  const { node } = props;
+  const validMimeTypes = ['image/jpeg', 'image/png'];
+
+  const isFile = node.internal.type === 'File';
+  const isImage = isFile && validMimeTypes.includes(node.internal.mediaType);
+
+  if (isImage) {
+    await Vibrant.from(node.absolutePath).getPalette((err, palette) => {
+      const colors = {
+        vibrant: palette.Vibrant.getHex(),
+        darkVibrant: palette.DarkVibrant.getHex(),
+        lightVibrant: palette.LightVibrant.getHex(),
+        muted: palette.Muted.getHex(),
+        darkMuted: palette.DarkMuted.getHex(),
+        lightMuted: palette.LightMuted.getHex(),
+      };
+
+      node.colorPalette = colors;
+    });
+  }
+};
+
+const populateSATInterimWithFile = async (props) => {
+  const { node, actions, store, cache, createNodeId } = props;
+  const { createNode } = actions;
+
   if (node.internal.type === 'SATInterim') {
     const fileNode = await createRemoteFileNode({
       url: node.news_image.data.full_url,

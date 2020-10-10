@@ -14,16 +14,18 @@ import usePreviewData from '@hooks/use-preview-data';
 
 import '@assets/fonts/_fonts-roboto.css';
 
-const entities = new AllHtmlEntities();
-
-function extractContent(htmlString: string): string {
+const extractContent: ExtractContent = (htmlString) => {
   const strippedContent = htmlString.replace(/<[^>]+>/g, '').substring(0, 150);
   return `${strippedContent}...`;
-}
+};
 
-function decode(string: string, hyphenFn: (string: string) => string): string {
-  return hyphenFn(entities.decode(string));
-}
+const entities = new AllHtmlEntities();
+const decode: Decode = (string, hyphenFn) => {
+  const decoded = entities.decode(string);
+  return hyphenFn(decoded);
+};
+
+const transformer: Transformer = (data) => data;
 
 export default function Page(props: Props): JSX.Element {
   const previewData = usePreviewData(transformer);
@@ -113,7 +115,9 @@ const styles = {
   `,
 };
 
-const transformer = (data: PreviewData): PageData => data;
+type ExtractContent = (htmlString: string) => string;
+type Decode = (string: string, hyphenFn: (string: string) => string) => string;
+type Transformer = (data: PreviewData) => PageData;
 
 type Props = {
   path: string;

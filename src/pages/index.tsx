@@ -15,6 +15,24 @@ import Logo from '@components/home/Logo';
 import Maintenance from '@components/home/Maintenance';
 import Events from '@components/home/Events';
 
+const transformer: Transformer = (data) => ({
+  satInterim: {
+    ...data,
+
+    news_image_file: {
+      childImageSharp: {
+        fluid: {
+          aspectRatio: 0,
+          sizes: '',
+          src: data.news_image.data.full_url,
+          srcSet: '',
+          tracedSVG: '',
+        },
+      },
+    },
+  },
+});
+
 export default function Home(): JSX.Element {
   const previewData = usePreviewData(transformer);
 
@@ -77,27 +95,7 @@ const $styles = {
   `,
 };
 
-const transformer = (data: PreviewData): NewsData => ({
-  satInterim: {
-    news_title: data.news_title,
-    news_image_file: {
-      childImageSharp: {
-        fluid: {
-          aspectRatio: 0,
-          sizes: '',
-          src: data.news_image.data.full_url,
-          srcSet: '',
-          tracedSVG: '',
-        },
-      },
-    },
-
-    news_article_display_name: data.news_article_display_name,
-    news_article: {
-      slug: data.news_article.slug,
-    },
-  },
-});
+type Transformer = (data: PreviewData) => NewsData;
 
 type PreviewData = {
   news_title: string;

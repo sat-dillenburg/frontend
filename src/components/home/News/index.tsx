@@ -14,10 +14,11 @@ const query = graphql`
   query {
     satInterim: satInterim {
       news_title
+      news_article_display_name
       news_article {
         slug
       }
-      news_article_display_name
+
       news_image_file {
         colorPalette {
           vibrant
@@ -36,7 +37,6 @@ const query = graphql`
 export default function News({ data }: Props): JSX.Element {
   const _data = data ? data : useStaticQuery<NewsData>(query);
   const dateData = _data.satInterim;
-  console.log(dateData);
 
   const image = dateData.news_image_file.childImageSharp.fluid;
   const color = dateData.news_image_file.colorPalette.vibrant;

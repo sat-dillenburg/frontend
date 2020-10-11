@@ -35,7 +35,7 @@ const filter = (eventsData: SATEventsData['satCurrentEvents']) => {
   moment.locale('de');
 
   const today = moment().startOf('day');
-  const future = moment().add(3, 'weeks').startOf('day');
+  const future = moment().add(3, 'weeks').endOf('day');
   const $eventsDataClean = eventsData.edges.filter((event) => {
     const eventDate = moment(event.node.date, 'YYYY-MM-DD').startOf('day').add(12, 'hours');
     return eventDate.isBetween(today, future);

@@ -11,7 +11,7 @@ export default function Image({ image, color }: Props): JSX.Element {
       style={{ backgroundColor: color }}
       fluid={image}
       objectPosition="50% 50%"
-      objectFit="contain"
+      objectFit="cover"
     />
   );
 }

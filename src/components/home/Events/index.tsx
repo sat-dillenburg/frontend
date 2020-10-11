@@ -5,6 +5,7 @@ import { Link } from '@components/home/Events/Event/Links';
 
 import { graphql, useStaticQuery } from 'gatsby';
 import { css } from 'linaria';
+
 import moment from 'moment';
 
 const query = graphql`
@@ -31,10 +32,12 @@ const query = graphql`
 `;
 
 const filter = (eventsData: SATEventsData['satCurrentEvents']) => {
-  const today = moment();
-  const future = moment().add(3, 'weeks');
+  moment.locale('de');
+
+  const today = moment().startOf('day');
+  const future = moment().add(3, 'weeks').startOf('day');
   const $eventsDataClean = eventsData.edges.filter((event) => {
-    const eventDate = moment(event.node.date, 'YYYY-MM-DD');
+    const eventDate = moment(event.node.date, 'YYYY-MM-DD').startOf('day').add(12, 'hours');
     return eventDate.isBetween(today, future);
   });
 

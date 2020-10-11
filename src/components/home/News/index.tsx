@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { graphql, Link, useStaticQuery } from 'gatsby';
 
@@ -34,34 +34,13 @@ const query = graphql`
   }
 `;
 
-function getColor(image: ImageFluid) {
-  const [color, setColor] = useState('');
-
-  useEffect(() => {
-    const $getColor = async () => {
-      const { default: Vibrant } = await import('node-vibrant');
-      const palette = await Vibrant.from(image.childImageSharp.fluid.src).getPalette();
-
-      setColor(palette.Vibrant?.getHex() ?? '');
-    };
-
-    if (image.colorPalette?.vibrant) {
-      setColor(image.colorPalette.vibrant);
-    } else {
-      $getColor();
-    }
-  }, [image]);
-
-  return color;
-}
-
 export default function News({ data }: Props): JSX.Element {
   const queryData = useStaticQuery<NewsData>(query);
   const $data = data ? data : queryData;
   const satInterimData = $data.satInterim;
 
   const image = satInterimData.news_image_file.childImageSharp.fluid;
-  const color = getColor(satInterimData.news_image_file);
+  const color = satInterimData.news_image_file.colorPalette?.vibrant ?? '#fff';
   const title = satInterimData.news_title;
 
   const link = {

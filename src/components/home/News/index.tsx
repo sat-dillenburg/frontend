@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { graphql, Link, useStaticQuery } from 'gatsby';
 
@@ -34,17 +34,39 @@ const query = graphql`
   }
 `;
 
-export default function News({ data }: Props): JSX.Element {
-  const _data = data ? data : useStaticQuery<NewsData>(query);
-  const dateData = _data.satInterim;
+function getColor(image: ImageFluid) {
+  const [color, setColor] = useState('');
 
-  const image = dateData.news_image_file.childImageSharp.fluid;
-  const color = dateData.news_image_file.colorPalette.vibrant;
-  const title = dateData.news_title;
+  useEffect(() => {
+    const $getColor = async () => {
+      const { default: Vibrant } = await import('node-vibrant');
+      const palette = await Vibrant.from(image.childImageSharp.fluid.src).getPalette();
+
+      setColor(palette.Vibrant?.getHex() ?? '');
+    };
+
+    if (image.colorPalette?.vibrant) {
+      setColor(image.colorPalette.vibrant);
+    } else {
+      $getColor();
+    }
+  }, [image]);
+
+  return color;
+}
+
+export default function News({ data }: Props): JSX.Element {
+  const queryData = useStaticQuery<NewsData>(query);
+  const $data = data ? data : queryData;
+  const satInterimData = $data.satInterim;
+
+  const image = satInterimData.news_image_file.childImageSharp.fluid;
+  const color = getColor(satInterimData.news_image_file);
+  const title = satInterimData.news_title;
 
   const link = {
-    title: dateData.news_article_display_name,
-    href: `/p/${dateData.news_article.slug}`,
+    title: satInterimData.news_article_display_name,
+    href: `/p/${satInterimData.news_article.slug}`,
   };
 
   return (
@@ -86,7 +108,7 @@ type Props = {
 };
 
 export type ImageFluid = {
-  colorPalette: {
+  colorPalette?: {
     vibrant: string;
   };
 

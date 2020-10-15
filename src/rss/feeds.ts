@@ -80,6 +80,8 @@ export default [
     output: '/podcast_beta.xml',
     title: `SAT Dillenburg | Audio-Podcast`,
 
+    match: '$^',
+
     serialize: (options: Props): FeedData => {
       const { query } = options;
       const { site, allSatEvent } = query;

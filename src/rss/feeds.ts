@@ -108,7 +108,7 @@ export default [
           description,
           author: `${node.speaker} @ SAT Dillenburg`,
           categories: ['Religion & Spirituality', 'Religion', 'Christianity'],
-          url: node.sermon_file?.data.full_url,
+          // url: site.siteMetadata.siteUrl, -- link to sermon @ sat-dillenburg.de
           guid: node.id,
           date: node.date,
 

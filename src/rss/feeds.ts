@@ -73,4 +73,46 @@ export default [
       return sermons;
     },
   },
+
+  {
+    query: queryFeed,
+
+    output: '/podcast_beta.xml',
+    title: `SAT Dillenburg | Audio-Podcast`,
+
+    serialize: (options: Props): FeedData => {
+      const { query } = options;
+      const { site, allSatEvent } = query;
+
+      const allEventsWithSermon = allSatEvent.nodes.filter((e) => e.sermon_file !== null);
+      const sermons = allEventsWithSermon.map((node) => {
+        const description =
+          `${node.topic}` + (node.additional_text ? ` | ${node.additional_text}` : ``) + ` - ${node.speaker}`;
+
+        const itunesImage = [{ _attr: { href: `${site.siteMetadata.siteUrl}/public/podcast_cover.png` } }];
+
+        return {
+          title: node.topic,
+          description,
+          link: node.sermon_file?.data.full_url,
+          author: `${node.speaker} @ SAT Dillenburg`,
+          categories: ['Religion & Spirituality', 'Religion', 'Christianity'],
+          url: node.sermon_file?.data.full_url,
+          guid: node.id,
+          date: node.date,
+
+          custom_elements: [
+            { 'itunes:author': `${node.speaker} @ SAT Dillenburg` },
+            { 'itunes:duration': formatDuration(node.sermon_file?.duration) },
+            { 'itunes:explicit': 'clean' },
+            { 'itunes:image': itunesImage },
+            { 'itunes:keywords': '' },
+            { 'itunes:summary': description },
+          ],
+        };
+      });
+
+      return sermons;
+    },
+  },
 ];

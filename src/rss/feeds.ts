@@ -88,6 +88,16 @@ export default [
 
       const allEventsWithSermon = allSatEvent.nodes.filter((e) => e.sermon_file !== null);
       const sermons = allEventsWithSermon.map((node) => {
+        const enclosure = [
+          {
+            _attr: {
+              url: node.sermon_file?.data.full_url,
+              length: node.sermon_file?.filesize,
+              type: 'audio/mpeg',
+            },
+          },
+        ];
+
         const description =
           `${node.topic}` + (node.additional_text ? ` | ${node.additional_text}` : ``) + ` - ${node.speaker}`;
 
@@ -96,7 +106,6 @@ export default [
         return {
           title: node.topic,
           description,
-          link: node.sermon_file?.data.full_url,
           author: `${node.speaker} @ SAT Dillenburg`,
           categories: ['Religion & Spirituality', 'Religion', 'Christianity'],
           url: node.sermon_file?.data.full_url,
@@ -110,6 +119,7 @@ export default [
             { 'itunes:image': itunesImage },
             { 'itunes:keywords': '' },
             { 'itunes:summary': description },
+            { enclosure },
           ],
         };
       });

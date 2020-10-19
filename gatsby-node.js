@@ -219,12 +219,18 @@ const createSATEventNodes = async (props) => {
       uploaded_on: Date @dateformat
     }
 
+    type Link {
+      href: String
+      title: String
+    }
+
     type SATEvent implements Node {
       season: String!
       date: Date! @dateformat
       speaker: String!
       topic: String!
 
+      links: [Link]
       additional_text: String
       moderation: String
       band: String
@@ -286,12 +292,18 @@ const createSATCurrentEventNodes = async (props) => {
       uploaded_on: Date @dateformat
     }
 
+    type Link {
+      href: String
+      title: String
+    }
+
     type SATCurrentEvent implements Node {
       season: String!
       date: Date! @dateformat
       speaker: String!
       topic: String!
 
+      links: [Link]
       additional_text: String
       moderation: String
       band: String

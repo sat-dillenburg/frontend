@@ -15,6 +15,11 @@ import Logo from '@components/home/Logo';
 import Maintenance from '@components/home/Maintenance';
 import Events from '@components/home/Events';
 
+import spotify from '@assets/images/icons/spotify.png';
+import itunes from '@assets/images/icons/itunes.png';
+import google from '@assets/images/icons/google.png';
+import youtube from '@assets/images/icons/youtube.png';
+
 const transformer: Transformer = (data) => ({
   satInterim: {
     ...data,
@@ -59,6 +64,31 @@ export default function Home(): JSX.Element {
       </div>
 
       <Events />
+
+      <div className={$styles.podcast}>
+        <b className="title">
+          Du willst <u>alle</u> Predigten hören?
+        </b>
+
+        <div className="items">
+          <a href="https://youtube.com/playlist?list=PLdDOq1CnKZn5MLi5dd_CXebqS6tl9Raez">
+            <img src={youtube} />
+          </a>
+
+          <a href="https://open.spotify.com/show/46Ks6ei9kRsppOrT5G9pNm">
+            <img src={spotify} />
+          </a>
+
+          <a href="https://podcasts.apple.com/de/podcast/sat-dillenburg-audio-podcast/id1339164714">
+            <img src={itunes} />
+          </a>
+
+          <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9zYXQtZGlsbGVuYnVyZy5kZS9wb2RjYXN0LnhtbA">
+            <img src={google} />
+          </a>
+        </div>
+      </div>
+
       <Footer />
     </Layout>
   );
@@ -72,6 +102,51 @@ const $styles = {
     height: 100%;
     max-width: 1280px;
     margin: 0 auto;
+  `,
+
+  podcast: css`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px 20px;
+    padding-top: 0;
+
+    .title {
+      flex: 1 1 auto;
+      font-family: 'Bebas Neue';
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .items {
+      flex: 1 1 auto;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      margin-top: 16px;
+
+      a {
+        flex: 1 1 auto;
+        padding: 0 10px;
+        font-family: 'Bebas Neue';
+        font-size: 18px;
+        font-weight: normal;
+
+        color: #2196f3;
+
+        img {
+          width: 38px;
+          height: 38px;
+        }
+      }
+    }
   `,
 
   content: css`

@@ -63,6 +63,21 @@ export default function Home(): JSX.Element {
         </div>
       </div>
 
+      <div className={$styles.survey}>
+        <b className="title">
+          Hilf uns für die nächste SAT-Staffel
+          und mach mit bei der Umfrage.
+        </b>
+
+        <div className="items">
+          <a href="https://umfrage.sat-dillenburg.de">
+            umfrage.sat-dillenburg.de
+          </a>
+        </div>
+
+        <div className="divider" />
+      </div>
+
       <Events />
 
       <div className={$styles.podcast}>
@@ -102,6 +117,58 @@ const $styles = {
     height: 100%;
     max-width: 1280px;
     margin: 0 auto;
+  `,
+
+  survey: css`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px 20px;
+    padding-bottom: 0;
+
+    .divider {
+      width: calc(100% - 50px);
+      margin: 0 auto;
+      height: 0;
+      padding-top: 50px;
+      border-bottom: 1px dashed #292929;
+      position: relative;
+      bottom: 0;
+    }
+
+    .title {
+      flex: 1 1 auto;
+      font-family: 'Bebas Neue';
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      max-width: 460px;
+      letter-spacing: 0.1em;
+    }
+
+    .items {
+      flex: 1 1 auto;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      margin-top: 16px;
+
+      a {
+        font-family: 'Bebas Neue';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        letter-spacing: 0.1em;
+        text-decoration-line: underline;
+        color: #292929;
+      }
+    }
   `,
 
   podcast: css`

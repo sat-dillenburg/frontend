@@ -130,7 +130,8 @@ const $styles = {
     padding-bottom: 0;
 
     .divider {
-      width: calc(100% - 50px);
+      width: 100%;
+      max-width: 940px;
       margin: 0 auto;
       height: 0;
       padding-top: 50px;

@@ -63,22 +63,29 @@ export default function Home(): JSX.Element {
         </div>
       </div>
 
-      <div className={$styles.survey}>
-        <b className="title">
-          Hilf uns für die nächste SAT-Staffel
-          und mach mit bei der Umfrage.
-        </b>
+      {/* <div className={$styles.survey}>
+        <b className="title">Hilf uns für die nächste SAT-Staffel und mach mit bei der Umfrage.</b>
 
         <div className="items">
-          <a href="https://umfrage.sat-dillenburg.de">
-            umfrage.sat-dillenburg.de
-          </a>
+          <a href="https://umfrage.sat-dillenburg.de">umfrage.sat-dillenburg.de</a>
+        </div>
+
+        <div className="divider" />
+      </div> */}
+
+      <Events />
+
+      <div className={$styles.location}>
+        <b className="title">Wann und wo?</b>
+
+        <div className="items">
+          <div>19:00 Uhr</div>
+          <div>Stadionstrasse 4</div>
+          <div>35683 Dillenburg</div>
         </div>
 
         <div className="divider" />
       </div>
-
-      <Events />
 
       <div className={$styles.podcast}>
         <b className="title">
@@ -167,6 +174,58 @@ const $styles = {
         font-size: 24px;
         letter-spacing: 0.1em;
         text-decoration-line: underline;
+        color: #292929;
+      }
+    }
+  `,
+
+  location: css`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0 20px;
+    padding-bottom: 50px;
+
+    .divider {
+      width: 100%;
+      max-width: 940px;
+      margin: 0 auto;
+      height: 0;
+      padding-top: 50px;
+      border-bottom: 1px dashed #292929;
+      position: relative;
+      bottom: 0;
+    }
+
+    .title {
+      flex: 1 1 auto;
+      font-family: 'Bebas Neue';
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      max-width: 460px;
+      letter-spacing: 0.1em;
+    }
+
+    .items {
+      flex: 1 1 auto;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      margin-top: 16px;
+
+      div {
+        font-family: 'Bebas Neue';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        letter-spacing: 0.1em;
         color: #292929;
       }
     }

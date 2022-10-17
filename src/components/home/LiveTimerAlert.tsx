@@ -38,7 +38,7 @@ function LiveTimerAlert(): JSX.Element | null {
 
   return showAlert ? (
     <div className={$style}>
-      WIR SIND{timer} - <a href="http://satdillenburg.online.church/">JETZT ZUM STREAM</a>
+      WIR SIND{timer} - <a href="https://live.sat-dillenburg.de/">JETZT ZUM STREAM</a>
     </div>
   ) : null;
 }
